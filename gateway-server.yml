@@ -1,0 +1,21 @@
+server:
+  port: 8080
+spring:
+  cloud:
+    gateway:
+#      default-filters:
+#        - name: LogFilter
+      routes:
+        - id: catalogRoute
+          uri: lb://CATALOG-SERVICE
+          predicates:
+            - Path=/catalog/**
+#          filters:
+#            - name: SubscriptionFilter
+        - id: movieRoute
+          uri: lb://MOVIE-SERVICE
+          predicates:
+            - Path=/movie/**
+          filters:
+            - AddRequestHeader=catalog-request-header, custom-catalog-request-header
+            - AddResponseHeader=catalog-response-header, custom-catalog-response-header
