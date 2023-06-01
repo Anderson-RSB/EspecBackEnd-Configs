@@ -8,11 +8,11 @@ spring:
           uri: lb://CATALOG-SERVICE
           predicates:
             - Path=/catalog/**
-          filters:
-            - name: CatalogFilter
+#           filters:
+#             - name: CatalogFilter
         - id: movieRoute
           uri: lb://MOVIE-SERVICE
           predicates:
             - Path=/movies/**
-          filters:
-            - name: MovieFilter
+#           filters:
+#             - name: MovieFilter
