@@ -1,20 +1,50 @@
+spring:
+  zipkin:
+    base-url: http://localhost:9411/
+  rabbitmq:
+    username: guest
+    password: guest
+    host: rabbit-service
+    port: 5672
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 management:
+  health:
+    circuitbreakers:
+      enabled: true
   info:
     env:
       enabled: true
   endpoints:
     web:
       exposure:
-        include: health,info
-#  endpoint:
-#    health:
-#      show-details: always
+        include: health, info, circuitbreakers, circuitbreakerevents
+  endpoint:
+    health:
+      show-details: always
 info:
   author: Anderson R. S. Borges
   mail: a.senaborges@gmail.com
 server:
   port: ${PORT:9999}
+message: Mensagem genérica
+
+queue:
+  movie-service: queue-movie-service
+  serie-service: queue-serie-service
+
+## Resilience4J configs for CircuitBreaker Pattern
+resilience4j:
+  circuitbreaker:
+    instances:
+      serie-service:
+        allowHealthIndicatorToFail: false
+        registerHealthIndicator: true
+        slidingWindowType: COUNT_BASED
+        slidingWindowSize: 5
+        failueRateThreshold: 50
+        waitDurationInOpenState: 50s
+        permittedNumberOfCalssInHalfOpenState: 2
+        automaticTransitionFromOpenToHalfIfOpenEnabled: true
