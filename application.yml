@@ -39,7 +39,7 @@ queue:
 resilience4j:
   circuitbreaker:
     instances:
-      serie-service:
+      default:
         allowHealthIndicatorToFail: false
         registerHealthIndicator: true
         slidingWindowType: COUNT_BASED
